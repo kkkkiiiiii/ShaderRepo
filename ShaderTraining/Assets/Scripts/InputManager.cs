@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public float lineWidth = 0.1f;
+    public float lineWidth = 0.001f;
     [SerializeField] private GameObject _linePrefab;
     private GameObject _recentLineObject;
     private LineRenderer _lineRenderer;
@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.widthMultiplier = 0.001f;
         _lineRenderer.startWidth = lineWidth;
         _lineRenderer.endWidth = lineWidth;
     }
@@ -31,7 +32,7 @@ public class InputManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                _recentLineObject = Instantiate(_linePrefab, Vector3.zero, Quaternion.identity, this.gameObject.transform);
+                _recentLineObject = Instantiate(_linePrefab, Vector3.zero, Quaternion.identity);
                 // 충돌한 오브젝트에 접근하여 처리 또는 조작 
                 
                 Debug.Log(hit.collider.gameObject.name +"hit.point " + hit.point);
@@ -55,6 +56,11 @@ public class InputManager : MonoBehaviour
                 //Debug.Log("hit.distance " +hit.distance);
                 //Debug.Log("hit.transform.position s"+hit.transform.position);
             }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            _vertexCount = 0;
         }
     }
     
